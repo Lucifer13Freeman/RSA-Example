@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset = 'utf-8'>
+        <meta http-equiv = 'X-UA-Compatible' content = 'IE=edge'>
+        <meta name = 'viewport' content = 'width=device-width, initial-scale=1'>
+        <title>RSA</title>
+    </head>
+    <body>
+
+        <div>
+            <header>
+                <h1>RSA</h1>
+            </header>
+            <div id = 'main'>
+                <div id = 'content'>
+                <div class = 'wrapped'>
+                    <div class = 'rsa_part' id = 'encode'>
+                        <h3>Зашифровка</h3>
+                        <br>
+                        P:
+                        <input type = 'text' id = 'p' class = 'input'>
+                        <br>
+                        Q:
+                        <input type = 'text' id = 'q' class = 'input'>
+                        <br><br>
+                        Открытый ключ E:
+                        <br><br>
+                        <input type = 'checkbox' id = 'key_e_auto' checked> Генерировать автоматически
+                        <br>
+                        <input type = 'text' id = 'input_key_e' class = 'input'>
+                        <br><br>
+                        Текст:
+                        <br>
+                        <textarea class = 'text_area' id = 'encode_text'></textarea>
+                        <br>
+                        <button id = 'auto_input'>Заполнить автоматически</button>
+                        <br>
+                        <button onclick = 'use_encode()'>Зашифровать</button>
+                        <br><br>
+                        Ключ N:
+                        <span id = 'key_n'></span>
+                        <br>
+                        Результат функции Эйлера:
+                        <span id = 'euler_func_res'></span>
+                        <br>
+                        Открытый ключ E:
+                        <span id = 'key_e'></span>
+                        <br>
+                        Закрытый ключ D:
+                        <span id = 'key_d'></span>
+                        <br><br>
+                        Зашифрованный текст:
+                        <br>
+                        <textarea class = 'text_area' id = 'encoded_text'></textarea>
+                    </div>
+                    <div class = 'rsa_part' id = 'decode'>
+                        <h3>Расшифровка</h3>
+                        <br>
+                        Ключ D:
+                        <input type = 'text' id = 'input_key_d' class = 'input'>
+                        <br>
+                        Ключ N:
+                        <input type = 'text' id = 'input_key_n' class = 'input'>
+                        <br><br>
+                        Текст:
+                        <br>
+                        <textarea class = 'text_area' id = 'decode_text'></textarea>
+                        <br>
+                        <button onclick = 'use_decode()'>Расшифровать</button>
+                        <br>
+                        <br>
+                        Расшифрованный текст:
+                        <br>
+                        <textarea class = 'text_area' id = 'decoded_text'></textarea>
+                        <br><br>
+                        <button id = 'clear'>Очистить всё</button>
+                    </div>
+                </div>
+                <div class = 'rsa_part' id = 'euclid'>
+                    <br>
+                    <h3>Расширенный алгоритм Евклида</h3>
+                    <br>
+                    N:
+                    <input type = 'text' id = 'euclid_n' class = 'input'>
+                    <br>
+                    M:
+                    <input type = 'text' id = 'euclid_m' class = 'input'>
+                    <br><br>
+                    <button onclick = 'use_euclid_ext_alg()'>Вычислить</button>
+                    <br><br>
+                    <div id = 'euclid_table'></div> 
+                    <br>
+                    <div id = 'euclid_check'></div> 
+                </div>
+                </div>
+            </div>
+            <footer>
+                <div>
+                    <p id = 'footer_name'></p>
+                    <p id = 'footer_developer'></p>
+                    <p id = 'footer_copyright'></p>
+                </div>
+            </footer>
+        </div>
+
+
+        <style>
+
+            @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap');
+
+            *
+            {
+                margin: 0;
+                padding: 0;
+                text-decoration: none;
+                list-style: none;
+            }
+            body 
+            {
+                background-color: #efeff0;
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 16px;
+                font-weight: 600;
+                color: #450000bb;
+            }
+            header
+            {
+                background-color: #450000bb;
+                padding: 10px;
+                font-size: 1.2rem;
+                color: #fff;
+                font-family: 'Dancing Script', cursive;
+                position: fixed;
+                width: 100vw;
+                margin: 0;
+                z-index: 9;
+                cursor: default;
+            }
+            footer 
+            {
+                width: 100%;
+                height: 150px;
+                border-top: 1px solid #450000bb;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                font-family: 'Dancing Script', cursive;
+                font-size: 1rem;
+            }
+            h3
+            {
+                color: #450000bb;
+                text-decoration: underline;
+                font-family: 'Dancing Script', cursive;
+            }
+            button
+            {
+                font-size: 14px;
+                border-radius: 4px;
+                color: #fff;
+                background: #450000bb;
+                padding: 6px 24px;
+                margin: 4px 0;
+                outline: none;
+                border-radius: 10px;
+                border: 1px solid #450000bb;
+            }
+            button:hover
+            {
+                cursor: pointer;
+                background: #500000a1;
+            }
+            button:active
+            {
+                background: #720000a1;
+            }
+            table
+            {
+                border-collapse: collapse;
+                border: 2px solid #450000bb;
+            }
+            thead
+            {
+                font-weight: 800;
+                color: #450000bb;
+            }
+            tr td, th
+            {
+                padding: 4px;
+                border: 2px solid #450000bb;
+                text-align: center;
+                font-size: 1rem;
+            } 
+            .input
+            {
+                margin: 4px 0;
+                height: 20px;
+                width: 180px;
+                padding: 2px 6px;
+                outline: none;
+                border-radius: 6px;
+                border: 2px solid #450000bb;
+            }
+            .text_area
+            {
+                width: 240px;
+                height: 80px;
+                margin: 10px 0;
+                padding: 6px;
+                resize: none;
+                outline: none;
+                border-radius: 10px;
+                border: 2px solid #450000bb;
+                overflow-y: scroll;
+                scrollbar-width: none;
+            }
+            .text_area::-webkit-scrollbar
+            {
+                display: none;
+                width: 240px;
+            }
+            #main
+            {
+                display: flex;
+                justify-content: center;
+                padding-top: 100px;
+                padding-bottom: 40px;
+                min-width: 720px;
+            }
+            #content
+            {
+                border-radius: 40px;
+                margin: 0 40px;
+                padding: 40px 0;
+                background-color: #dedfe2; 
+            }
+            .wrapped
+            {
+                display: flex;
+                justify-content: center;
+            }
+            .rsa_part
+            {
+                width: 400px;
+                padding: 0 40px;
+            }
+            #euclid
+            {
+                width: 700px;
+            }
+            @media screen and (max-width: 930px) 
+            {
+                .wrapped
+                {
+                    display: block;
+                }
+                #euclid_table
+                {
+                    width: 400px;
+                }
+                #table
+                {
+                    overflow-x: scroll;
+                }
+                #euclid
+                {
+                    width: 400px;
+                }
+                table
+                {
+                    border-collapse: collapse;
+                    border: 2px solid #450000bb;
+                }
+                thead
+                {
+                    font-weight: 500;
+                    color: #450000bb;
+                }
+                tr td, th
+                {
+                    padding: 2px;
+                    border: 2px solid #450000bb;
+                    text-align: center;
+                    font-size: 0.9rem;
+                } 
+            }
+            @media screen and (max-width: 720px)
+            {
+                #content
+                {
+                    width: 100%;
+                    margin: 0;
+                }
+                #main
+                {
+                    min-width: 480px;
+                }
+            }
+
+        </style>
+
+        <script>
+
+            const chars = [
+                ' ', 'А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ё', 'Ж', 'З', 'И',
+                'Й', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 
+                'Т', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ь', 'Ы', 'Ъ',
+                'Э', 'Ю', 'Я', 
+                'а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж', 'з', 'и',
+                'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 
+                'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ь', 'ы', 'ъ',
+                'э', 'ю', 'я',
+                'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 
+                'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 
+                'w', 'x', 'y', 'z',
+                'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I,', 'J', 'K', 
+                'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 
+                'W', 'X', 'Y', 'Z',
+                '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+                ',', '.', '!', '?', '>', '<', '-', '+', '*', '=', '@', '#', 
+                '"', "'", '`', '[', ']', '{', '}', '/', '\\', '$', '%', ':',
+                ';', '^', '№', '~', '&', '|', '_'
+            ];  
+            
+
+            const separators = [
+                '~~@d^#~', '~`$*e@~', '~#$@s~~', '~&&i|~@@', '$$@n#~~|&', '%$e~@*??|~',
+                '@@s~~%&*#!~', '#^&p*~||&#@', '##$@e&&@~', '#%@r#&~&', '&&@^^a%#|@',
+                '#%@#&r~@@~~%&*#!~&', '#^&*~|e##$@&&@~|&#@~&&|~@@', '~#~~@^q#~$@~~',
+                '~##%@#&u@^#~$@$$~&&|~@@', '$$@#i~~|&', '$$@@@%h&&#$@~!=_+$', 
+                '$=!_+$^^=-%$@!**~##%@#&@i^#~$@~||/$@@', '#!!#$+=@#c!^^:"', '**=_$%<@@#&|i#%#',
+                '#$%^&*n#&$?!?||%##^&!@"$:\\;%#', '#$@$@t&&??><#', '&?<=@$%^>@$^^@r^$&&|$^]$$&[$',
+                '&$#%^#*":;&?/##@%@$$@$$@a^####^&#*', '_-=#$##;^&s|!!^@$@?@!#'
+            ];
+
+
+            let clear_btn = document.getElementById('clear');
+            let auto_input_btn = document.getElementById('auto_input');
+
+            let footer_name = document.getElementById('footer_name');
+            let footer_developer = document.getElementById('footer_developer');
+            let footer_copyright = document.getElementById('footer_copyright');
+
+            footer_name.innerHTML = 'RSA&reg;';
+            footer_developer.innerText = 'Developed by Lipinskas D.Y.';
+            footer_copyright.innerHTML = `Copyright&copy; ${new Date().getFullYear()} All rights reserved.`;
+
+
+            auto_input_btn.onclick = async (e) =>
+            {
+                e.preventDefault();
+
+                let p = document.getElementById('p');
+                let q = document.getElementById('q');
+                let encode_text = document.getElementById('encode_text');
+                let euclid_n = document.getElementById('euclid_n');
+                let euclid_m = document.getElementById('euclid_m');
+                let input_key_e = document.getElementById('input_key_e');
+                let key_e_auto = document.getElementById('key_e_auto');
+
+                p.value = euclid_n.value = 5308417;
+                q.value = euclid_m.value = 9369319;
+                encode_text.innerText = 'Добро пожаловать! Hello world!';
+
+                let is_auto = key_e_auto.checked;
+
+                if (!is_auto) input_key_e.value = 9339841449847;
+            }
+
+
+            clear_btn.onclick = async (e) =>
+            {
+                e.preventDefault();
+
+                let p = document.getElementById('p');
+                let q = document.getElementById('q');
+
+                let key_n = document.getElementById('key_n');
+                let key_e = document.getElementById('key_e');
+                let key_d = document.getElementById('key_d');
+
+                let input_key_n = document.getElementById('input_key_n');
+                let input_key_e = document.getElementById('input_key_e');
+                let input_key_d = document.getElementById('input_key_d');
+
+                let euler_func_res = document.getElementById('euler_func_res');
+
+                let euclid_n = document.getElementById('euclid_n');
+                let euclid_m = document.getElementById('euclid_m');
+                let euclid_table = document.getElementById('euclid_table');
+                let euclid_check = document.getElementById('euclid_check');
+
+                let encode_text = document.getElementById('encode_text');
+                let decode_text = document.getElementById('decode_text');
+                let decoded_text = document.getElementById('decoded_text');
+                let encoded_text = document.getElementById('encoded_text');
+
+                p.value = q.value = input_key_n.value = key_n.innerText = euclid_n.value = 
+                euler_func_res.innerText = euclid_m.value = key_e.innerText = input_key_e.value =
+                input_key_d.value = key_d.innerText = encode_text.innerText = decode_text.innerText = 
+                encoded_text.innerText = decoded_text.innerText = euclid_table.innerHTML = 
+                euclid_check.innerHTML = '';
+            }
+
+
+            const is_simple_number = async (n) =>
+            {
+                if (n < 2) return false;
+                if (n == 2) return true;
+
+                for (let i = 2; i < n; i++) if (n % i == 0) return false;
+
+                return true;
+            }
+
+
+            const gcd = async (...args) => 
+            {
+                let x;
+
+                for (x = args[0], i = 1; i < args.length; i++) 
+                {
+                    let y = args[i];
+
+                    while (x && y) x > y ? x %= y : y %= x;
+                    x += y;
+                }
+
+                return x;
+            }
+
+
+            const random_int = async (min, max) => Math.floor(Math.random() * (max - min)) + min;
+
+            
+            const get_random_separator = async () =>
+            {
+                const min = 0;
+                const max = separators.length - 1;
+                const index = await random_int(min, max);
+                const delimiter = separators[index];
+                return delimiter;
+            }
+            
+
+            const remove_separators = async = (text) =>
+            {
+                let text_arr = new Array();
+
+                let part = '';
+
+                for (let i = 0; i < text.length; i++)
+                {
+                    if (Number.isInteger(parseInt(text[i]))) part += text[i].toString();
+                    else
+                    {
+                        if (part) text_arr.push(part.toString());
+                        part = '';
+                    }
+                }
+
+                return text_arr;
+            }
+
+
+            const binary_pow_with_mod = async (a, b, mod) =>
+            {
+                let bin_b = b.toString(2).split('');
+                let res_a = new Array();
+                res_a.push(BigInt(a));
+
+                for (let i = 0; i < bin_b.length - 1; i++)
+                {
+                    if (parseInt(bin_b[i + 1]) === 0)
+                        res_a[i + 1] = BigInt(res_a[i]) ** BigInt(2) % BigInt(mod);
+                    else if (parseInt(bin_b[i + 1]) === 1)
+                        res_a[i + 1] = BigInt(res_a[i]) ** BigInt(2) * BigInt(res_a[0]) % BigInt(mod);
+                }
+
+                return BigInt(res_a.pop());
+            }
+
+
+            const calc_e = async (n, euler_func) =>
+            {
+                let input_key_e = document.getElementById('input_key_e');
+                let key_e_auto = document.getElementById('key_e_auto');
+
+                let is_auto = key_e_auto.checked;
+
+                const min = 2;
+                const max = n;
+                let e;
+
+                if (is_auto)
+                {
+                    e = await random_int(min, max);
+                    while (await gcd(e, euler_func) != 1) e++;
+                    input_key_e.value = e;
+                }
+                else
+                {
+                    let msg;
+
+                    e = input_key_e.value;
+
+                    if (e === '')
+                    {
+                        msg = 'Error: Открытые ключ Е не введён!';
+                        alert(msg);
+                        console.error(msg);
+                        return;
+                    }
+                    else if (await gcd(e, euler_func) !== 1) 
+                    {
+                        msg = `Error: Наибольший общий делитель\n` +
+                                `введённого e: ${e} и\n` +
+                                `результата функции Эйлера: ${euler_func}\n` +
+                                `не равен 1!`;
+                        alert(msg);
+                        console.error(msg);
+                        return;
+                    }
+                }
+
+                return e;
+            }
+
+
+            const calc_d = async (e, euler_func) =>
+            {
+                let euclid_table = document.getElementById('euclid_table');
+                let euclid_check = document.getElementById('euclid_check');
+
+                const d = await euclid_ext_alg(e, euler_func);
+                euclid_table.innerHTML = d.table;
+                euclid_check.innerHTML = d.check;
+
+                return d.d;
+            }
+
+                
+            const euclid_ext_alg = async (e, euler_func) =>
+            {
+                let n = { '1': BigInt(euler_func) }
+                let m = { '1': BigInt(e) }
+
+                let res = {
+                    output: '',
+                    table: '',
+                    check: '',
+                    A: undefined,
+                    B: undefined
+                }
+
+                let r = {};
+                let q = {};
+
+                let a = {
+                    '-1': 1,
+                    '0': 0
+                }
+
+                let b = {
+                    '-1': 0,
+                    '0': 1
+                }
+
+                res.table += '<div id = "table">' + 
+                            '<table>' + 
+                            '<thead>Результат:</thead>' + 
+                                '<tr>' +
+                                    '<th>№</th>' +
+                                    '<th>Ni</th>' +
+                                    '<th>Mi</th>' +
+                                    '<th>Ri</th>' +
+                                    '<th>Qi</th>' +
+                                    '<th>Ai</th>' +
+                                    '<th>Bi</th>' +
+                                '</tr>' +
+                            '<tbody>'+
+                                '<tr>' + 
+                                    '<td>-1</td>' + 
+                                    '<td>-</td>' +
+                                    '<td>-</td>' +
+                                    '<td>-</td>' +
+                                    '<td>-</td>' +
+                                    `<td>${a['-1']}</td>` +
+                                    `<td>${b['-1']}</td>` +
+                                '</tr>' +
+                                '<tr>' + 
+                                    '<td>0</td>' + 
+                                    '<td>-</td>' +
+                                    '<td>-</td>' +
+                                    '<td>-</td>' +
+                                    '<td>-</td>' +
+                                    `<td>${a['0']}</td>` +
+                                    `<td>${b['0']}</td>` +
+                                '</tr>';
+
+                res.output = '\n№\t | ni\t | mi\t | ri\t | qi\t | ai\t | bi\t' +
+                            `\n-1\t | -\t | -\t | -\t | -\t | ${a['-1']}\t | ${b['-1']}\t` +
+                            `\n0\t | -\t | -\t | -\t | -\t | ${a['0']}\t | ${b['0']}\t`;
+
+                try
+                {
+                    for (let i = 1; m[i.toString()] != 0; i++)
+                    {
+                        r[i.toString()] = BigInt(n[i.toString()]) % BigInt(m[i.toString()]);
+                        q[i.toString()] = BigInt((n[i.toString()]) / BigInt(m[i.toString()])) ^ BigInt(0);
+                        a[i.toString()] = BigInt(a[(i - 2).toString()]) - BigInt(q[i.toString()]) * BigInt(a[(i - 1).toString()]);
+                        b[i.toString()] = BigInt(b[(i - 2).toString()]) - BigInt(q[i.toString()]) * BigInt(b[(i - 1).toString()]);
+
+                        res.output += `\n${i}\t | ` +
+                                        `${n[i.toString()]}\t | ` +
+                                        `${m[i.toString()]}\t | ` +
+                                        `${r[i.toString()]}\t | ` +
+                                        `${q[i.toString()]}\t | ` +
+                                        `${a[i.toString()]}\t | ` +
+                                        `${b[i.toString()]}\t`;
+                        
+                        res.table += `<tr>` + 
+                                        `<td>${i}</td>` + 
+                                        `<td>${n[i.toString()]}</td>` + 
+                                        `<td>${m[i.toString()]}</td>` + 
+                                        `<td>${r[i.toString()]}</td>` +
+                                        `<td>${q[i.toString()]}</td>` +
+                                        `<td>${a[i.toString()]}</td>` +
+                                        `<td>${b[i.toString()]}</td>` +
+                                    `</tr>`;
+
+                        n[(i + 1).toString()] = BigInt(m[i]);
+                        m[(i + 1).toString()] = BigInt(r[i]);
+                    }
+
+                    res.output += `\n${Object.keys(n).length.toString()}\t | ` +
+                                    `${n[Object.keys(n).length.toString()]}\t | ` +
+                                    `${m[Object.keys(m).length.toString()]}\t | ` +
+                                    `-\t | -\t | -\t | -\t`;
+
+                    res.table += `<tr>` + 
+                                    `<td>${Object.keys(n).length.toString()}</td>` + 
+                                    `<td>${n[Object.keys(n).length.toString()]}</td>` + 
+                                    `<td>${m[Object.keys(m).length.toString()]}</td>` + 
+                                    `<td>-</td><td>-</td><td>-</td><td>-</td>` +
+                                `</tr>`;
+
+                    const A = BigInt(a[(Object.keys(a).length - 3).toString()]);
+                    const B = BigInt(b[(Object.keys(b).length - 3).toString()]);
+                    const d = BigInt(B) < 0 ? BigInt(B) + BigInt(n['1']) : BigInt(B);
+
+                    res.A = A;
+                    res.B = B;
+                    res.d = d;
+                    
+                    res.output += `\n\nA = ${BigInt(A)}\nB = ${BigInt(B)}\nd = ${BigInt(d)}`;
+                    res.check += `<p>A = ${BigInt(A)}</p><p>B = ${BigInt(B)}</p><p>d = ${BigInt(d)}</p><br>`;
+
+                    let check_1 = BigInt(n['1']) * BigInt(A) + BigInt(m['1']) * BigInt(B);
+                    let check_2 = (BigInt(m['1']) * BigInt(d)) % BigInt(n['1']);
+
+                    res.output += `\n\nПроверка 1:\n\nn * A + m * B = ${BigInt(n['1'])} * ${BigInt(A)} + ${BigInt(m['1'])} * ${BigInt(B)} = ${check_1}`;
+                    res.output += `\n\nПроверка 2:\n\n(m * d) mod n = (${BigInt(m['1'])} * ${BigInt(d)}) mod ${BigInt(n['1'])} = ${check_2}`;
+
+                    res.check += '<p>Проверка 1:</p>' + 
+                                `<p>n * A + m * B = ${BigInt(n['1'])} * ${BigInt(A)} + ${BigInt(m['1'])} * ${BigInt(B)} = ${check_1}</p>` +
+                                '<br><p>Проверка 2:</p>' +
+                                `<p>(m * d) mod n = (${BigInt(m['1'])} * ${BigInt(d)}) mod ${BigInt(n['1'])} = ${check_2}</p>`;
+
+                    if (check_1 == 1 && check_2 == 1) 
+                    {
+                        const msg = 'Всё верно!';
+                        res.output += `\n\n${msg}`;
+                        res.check += `<br><p>${msg}</p>`
+                    }
+
+                    res.table += '</tbody></table></div>';
+
+                    return res;
+                } 
+                catch (err) 
+                {
+                    console.error(err.message);
+                    alert('Что-то пошло не так!');
+                }
+            }
+
+                
+            const encode = async (text, e, n) =>
+            {
+                let encoded = new Array();
+                let encoded_index;
+
+                encoded.push(await get_random_separator());
+
+                for (let i = 0; i < text.length; i++)
+                {
+                    let index = chars.indexOf(text[i]);
+                    encoded_index = BigInt(await binary_pow_with_mod(BigInt(index), BigInt(e), BigInt(n)));
+                    encoded.push(encoded_index.toString());
+                    encoded.push(await get_random_separator());
+                }
+
+                encoded = encoded.toString().replaceAll(',', '');
+
+                return encoded;
+            }
+
+
+            const decode = async (text, d, n) =>
+            {
+                let decoded = '';
+                const text_arr = await remove_separators(text);
+
+                for (let i = 0; i < text_arr.length; i++)
+                {
+                    let index = BigInt(await binary_pow_with_mod(BigInt(text_arr[i]), BigInt(d), BigInt(n)));
+                    decoded += chars[index];
+                }
+
+                return decoded;
+            }
+
+
+            const use_encode = async () =>
+            {
+                let p = parseInt(document.getElementById('p').value);
+                let q = parseInt(document.getElementById('q').value);
+                    
+                let key_n = document.getElementById('key_n');
+                let key_e = document.getElementById('key_e');
+                let key_d = document.getElementById('key_d');
+
+                let input_key_n = document.getElementById('input_key_n');
+                let input_key_d = document.getElementById('input_key_d');
+
+                let euler_func_res = document.getElementById('euler_func_res');
+
+                let euclid_n = document.getElementById('euclid_n');
+                let euclid_m = document.getElementById('euclid_m');
+
+                let encode_text = document.getElementById('encode_text');
+                let decode_text = document.getElementById('decode_text');
+                let encoded_text = document.getElementById('encoded_text');
+
+
+                let answer = {
+                    encoded: undefined,
+                    n: undefined,
+                    euler_func: undefined,
+                    e: undefined,
+                    d: undefined,
+                    msg: undefined
+                }
+
+                let text = encode_text.value;
+
+                try 
+                {
+                    if (text !== '' && p && q)
+                    {
+                        const is_simple_p = await is_simple_number(p);
+                        const is_simple_q = await is_simple_number(q);
+
+                        if (is_simple_p && is_simple_q)
+                        {
+                            const n = p * q;
+                            const euler_func = (p - 1) * (q - 1);
+
+                            const e = await calc_e(n, euler_func);
+
+                            if (e) 
+                            {
+                                const d = await calc_d(e, euler_func);
+
+                                const encoded = await encode(text, e, n);
+
+                                answer.encoded = encoded.toString();
+                                answer.n = n.toString();
+                                answer.euler_func = euler_func.toString();
+                                answer.e = e.toString();
+                                answer.d = d.toString();
+                                answer.msg = 'Success!';
+
+                                input_key_n.value = key_n.innerText = answer?.n;
+                                euclid_n.value = euler_func_res.innerText = answer?.euler_func;
+                                euclid_m.value = key_e.innerText = answer?.e;
+                                input_key_d.value = key_d.innerText = answer?.d;
+                                decode_text.innerText = encoded_text.innerText = answer?.encoded;
+
+                                return answer;
+                            }
+                        }
+                        else 
+                        {
+                            answer.msg = 'Error: p или q - не простые числа!';
+                            alert(answer.msg);
+                            return answer;
+                        }
+                    }
+                    else 
+                    {
+                        answer.msg = 'Error: p, q или текст не введены!';
+                        alert(answer.msg);
+                        return answer;
+                    }
+                } 
+                catch (err) 
+                {
+                    console.error(err.message);
+                    alert('Error: Что-то пошло не так!');
+                }
+            }
+
+
+            const use_decode = async () =>
+            {
+                let input_key_n = document.getElementById('input_key_n');
+                let input_key_d = document.getElementById('input_key_d');
+                let decode_text = document.getElementById('decode_text');
+                let decoded_text = document.getElementById('decoded_text');
+
+                let d = parseInt(input_key_d.value);
+                let n = parseInt(input_key_n.value);
+                let text = decode_text.value;
+
+                let answer = {
+                    res: undefined,
+                    msg: undefined
+                }
+
+                try
+                {
+                    if (text !== '' && d && n)
+                    {
+                        answer.res = await decode(text, d, n);
+                        answer.msg = 'Success!';
+                        decoded_text.innerText = answer.res;
+
+                        return answer;
+                    }
+                    else
+                    {
+                        answer.msg = 'Error: Введите секретный ключ!';
+                        return answer;
+                    }
+                } 
+                catch (err) 
+                {
+                    console.error(err.message);
+                    alert('Error: Что-то пошло не так!');
+                }
+            }
+
+
+            const use_euclid_ext_alg = async () =>
+            {
+                let euclid_n = document.getElementById('euclid_n');
+                let euclid_m = document.getElementById('euclid_m');
+                let euclid_table = document.getElementById('euclid_table');
+                let euclid_check = document.getElementById('euclid_check');
+
+                let n = parseInt(euclid_n.value);
+                let m = parseInt(euclid_m.value);
+                let res = await euclid_ext_alg(m, n);
+
+                euclid_table.innerHTML = res.table;
+                euclid_check.innerHTML = res.check;
+            }
+
+        </script>
+
+    </body>
+</html>
