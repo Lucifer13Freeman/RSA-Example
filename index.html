@@ -14,85 +14,103 @@
             </header>
             <div id = 'main'>
                 <div id = 'content'>
-                <div class = 'wrapped'>
-                    <div class = 'rsa_part' id = 'encode'>
-                        <h3>Зашифровка</h3>
-                        <br>
-                        P:
-                        <input type = 'text' id = 'p' class = 'input'>
-                        <br>
-                        Q:
-                        <input type = 'text' id = 'q' class = 'input'>
-                        <br><br>
-                        Открытый ключ E:
-                        <br><br>
-                        <input type = 'checkbox' id = 'key_e_auto' checked> Генерировать автоматически
-                        <br>
-                        <input type = 'text' id = 'input_key_e' class = 'input'>
-                        <br><br>
-                        Текст:
-                        <br>
-                        <textarea class = 'text_area' id = 'encode_text'></textarea>
-                        <br>
-                        <button id = 'auto_input'>Заполнить автоматически</button>
-                        <br>
-                        <button onclick = 'use_encode()'>Зашифровать</button>
-                        <br><br>
-                        Ключ N:
-                        <span id = 'key_n'></span>
-                        <br>
-                        Результат функции Эйлера:
-                        <span id = 'euler_func_res'></span>
-                        <br>
-                        Открытый ключ E:
-                        <span id = 'key_e'></span>
-                        <br>
-                        Закрытый ключ D:
-                        <span id = 'key_d'></span>
-                        <br><br>
-                        Зашифрованный текст:
-                        <br>
-                        <textarea class = 'text_area' id = 'encoded_text'></textarea>
+                    <div class = 'wrapped'>
+                        <div class = 'rsa_part' id = 'encode'>
+                            <h3>Зашифровка</h3>
+                            <br>
+                            P:
+                            <input type = 'text' id = 'p' class = 'input'>
+                            <br>
+                            Q:
+                            <input type = 'text' id = 'q' class = 'input'>
+                            <br><br>
+                            Открытый ключ E:
+                            <br><br>
+                            <input type = 'checkbox' id = 'key_e_auto' checked> Генерировать автоматически
+                            <br>
+                            <input type = 'text' id = 'input_key_e' class = 'input'>
+                            <br><br>
+                            Текст:
+                            <br>
+                            <textarea class = 'text_area' id = 'encode_text'></textarea>
+                            <br>
+                            <button id = 'auto_input'>Заполнить автоматически</button>
+                            <br>
+                            <button onclick = 'use_encode()'>Зашифровать</button>
+                            <br><br>
+                            Ключ N:
+                            <span id = 'key_n'></span>
+                            <br>
+                            Результат функции Эйлера:
+                            <span id = 'euler_func_res'></span>
+                            <br>
+                            Открытый ключ E:
+                            <span id = 'key_e'></span>
+                            <br>
+                            Закрытый ключ D:
+                            <span id = 'key_d'></span>
+                            <br><br>
+                            Зашифрованный текст:
+                            <br>
+                            <textarea class = 'text_area' id = 'encoded_text'></textarea>
+                        </div>
+                        <div class = 'rsa_part' id = 'decode'>
+                            <h3>Расшифровка</h3>
+                            <br>
+                            Ключ D:
+                            <input type = 'text' id = 'input_key_d' class = 'input'>
+                            <br>
+                            Ключ N:
+                            <input type = 'text' id = 'input_key_n' class = 'input'>
+                            <br><br>
+                            Текст:
+                            <br>
+                            <textarea class = 'text_area' id = 'decode_text'></textarea>
+                            <br>
+                            <button onclick = 'use_decode()'>Расшифровать</button>
+                            <br>
+                            <br>
+                            Расшифрованный текст:
+                            <br>
+                            <textarea class = 'text_area' id = 'decoded_text'></textarea>
+                            <br><br>
+                            <button id = 'clear'>Очистить всё</button>
+                        </div>
                     </div>
-                    <div class = 'rsa_part' id = 'decode'>
-                        <h3>Расшифровка</h3>
+                    <div class = 'rsa_part' id = 'euclid'>
                         <br>
-                        Ключ D:
-                        <input type = 'text' id = 'input_key_d' class = 'input'>
+                        <h3>Расширенный алгоритм Евклида</h3>
                         <br>
-                        Ключ N:
-                        <input type = 'text' id = 'input_key_n' class = 'input'>
+                        N:
+                        <input type = 'text' id = 'euclid_n' class = 'input'>
+                        <br>
+                        M:
+                        <input type = 'text' id = 'euclid_m' class = 'input'>
                         <br><br>
-                        Текст:
-                        <br>
-                        <textarea class = 'text_area' id = 'decode_text'></textarea>
-                        <br>
-                        <button onclick = 'use_decode()'>Расшифровать</button>
-                        <br>
-                        <br>
-                        Расшифрованный текст:
-                        <br>
-                        <textarea class = 'text_area' id = 'decoded_text'></textarea>
+                        <button onclick = 'use_euclid_ext_alg()'>Вычислить</button>
                         <br><br>
-                        <button id = 'clear'>Очистить всё</button>
+                        <div id = 'euclid_table'></div> 
+                        <br>
+                        <div id = 'euclid_check'></div> 
                     </div>
-                </div>
-                <div class = 'rsa_part' id = 'euclid'>
-                    <br>
-                    <h3>Расширенный алгоритм Евклида</h3>
-                    <br>
-                    N:
-                    <input type = 'text' id = 'euclid_n' class = 'input'>
-                    <br>
-                    M:
-                    <input type = 'text' id = 'euclid_m' class = 'input'>
-                    <br><br>
-                    <button onclick = 'use_euclid_ext_alg()'>Вычислить</button>
-                    <br><br>
-                    <div id = 'euclid_table'></div> 
-                    <br>
-                    <div id = 'euclid_check'></div> 
-                </div>
+                    <div class = 'rsa_part' id = 'bin_pow_mod'>
+                        <br>
+                        <h3>Бинарное возведение в степень по модулю</h3>
+                        <br>
+                        Число A:
+                        <input type = 'text' id = 'bin_num' class = 'input'>
+                        <br>
+                        Степень B:
+                        <input type = 'text' id = 'bin_pow' class = 'input'>
+                        <br>
+                        Модуль N:
+                        <input type = 'text' id = 'bin_mod' class = 'input'>
+                        <br><br>
+                        <button onclick = 'use_binary_pow_with_mod()'>Вычислить</button>
+                        <br><br>
+                        <div id = 'bin_pow_mod_table'></div> 
+                        <br>
+                    </div>
                 </div>
             </div>
             <footer>
@@ -192,7 +210,17 @@
                 border: 2px solid #450000bb;
                 text-align: center;
                 font-size: 1rem;
-            } 
+            }
+            .wrapped
+            {
+                display: flex;
+                justify-content: center;
+            }
+            .rsa_part
+            {
+                width: 400px;
+                padding: 0 40px;
+            }
             .input
             {
                 margin: 4px 0;
@@ -219,7 +247,10 @@
             .text_area::-webkit-scrollbar
             {
                 display: none;
-                width: 240px;
+            }
+            .table
+            {
+                overflow-x: scroll;
             }
             #main
             {
@@ -236,43 +267,12 @@
                 padding: 40px 0;
                 background-color: #dedfe2; 
             }
-            .wrapped
-            {
-                display: flex;
-                justify-content: center;
-            }
-            .rsa_part
-            {
-                width: 400px;
-                padding: 0 40px;
-            }
-            #euclid
+            #euclid, #bin_pow_mod
             {
                 width: 700px;
             }
             @media screen and (max-width: 930px) 
             {
-                .wrapped
-                {
-                    display: block;
-                }
-                #euclid_table
-                {
-                    width: 400px;
-                }
-                #table
-                {
-                    overflow-x: scroll;
-                }
-                #euclid
-                {
-                    width: 400px;
-                }
-                table
-                {
-                    border-collapse: collapse;
-                    border: 2px solid #450000bb;
-                }
                 thead
                 {
                     font-weight: 500;
@@ -285,17 +285,25 @@
                     text-align: center;
                     font-size: 0.9rem;
                 } 
+                .wrapped
+                {
+                    display: block;
+                }
+                #euclid, #euclid_table, #bin_pow_mod, #bin_pow_mod_table
+                {
+                    width: 400px;
+                }
             }
             @media screen and (max-width: 720px)
             {
+                #main
+                {
+                    min-width: 480px;
+                }
                 #content
                 {
                     width: 100%;
                     margin: 0;
-                }
-                #main
-                {
-                    min-width: 480px;
                 }
             }
 
@@ -354,15 +362,26 @@
 
                 let p = document.getElementById('p');
                 let q = document.getElementById('q');
-                let encode_text = document.getElementById('encode_text');
-                let euclid_n = document.getElementById('euclid_n');
-                let euclid_m = document.getElementById('euclid_m');
+
                 let input_key_e = document.getElementById('input_key_e');
                 let key_e_auto = document.getElementById('key_e_auto');
+                let encode_text = document.getElementById('encode_text');
+
+                let euclid_n = document.getElementById('euclid_n');
+                let euclid_m = document.getElementById('euclid_m');
+
+                let bin_num = document.getElementById('bin_num');
+                let bin_pow = document.getElementById('bin_pow');
+                let bin_mod = document.getElementById('bin_mod');
 
                 p.value = euclid_n.value = 5308417;
                 q.value = euclid_m.value = 9369319;
-                encode_text.innerText = 'Добро пожаловать! Hello world!';
+
+                encode_text.innerText = 'Wake up, samurai!';
+
+                bin_num.value = 2;
+                bin_pow.value = 199;
+                bin_mod.value = 1003;
 
                 let is_auto = key_e_auto.checked;
 
@@ -392,6 +411,11 @@
                 let euclid_table = document.getElementById('euclid_table');
                 let euclid_check = document.getElementById('euclid_check');
 
+                let bin_num = document.getElementById('bin_num');
+                let bin_pow = document.getElementById('bin_pow');
+                let bin_mod = document.getElementById('bin_mod');
+                let bin_pow_mod_table = document.getElementById('bin_pow_mod_table');
+
                 let encode_text = document.getElementById('encode_text');
                 let decode_text = document.getElementById('decode_text');
                 let decoded_text = document.getElementById('decoded_text');
@@ -401,7 +425,8 @@
                 euler_func_res.innerText = euclid_m.value = key_e.innerText = input_key_e.value =
                 input_key_d.value = key_d.innerText = encode_text.innerText = decode_text.innerText = 
                 encoded_text.innerText = decoded_text.innerText = euclid_table.innerHTML = 
-                euclid_check.innerHTML = '';
+                euclid_check.innerHTML = bin_pow_mod_table.innerHTML = bin_num.value = bin_pow.value = 
+                bin_mod.value = '';
             }
 
 
@@ -465,21 +490,51 @@
             }
 
 
-            const binary_pow_with_mod = async (a, b, mod) =>
+            const binary_pow_with_mod = async (num_a, pow_b, mod_n) =>
             {
-                let bin_b = b.toString(2).split('');
+                let res = {
+                    res: undefined,
+                    table: ''
+                }
+
+                res.table += '<br>' + 
+                            '<div class = "table">' + 
+                                '<table>' + 
+                                    `<thead>Результат ${num_a} ^ ${pow_b} mod ${mod_n}:</thead>` + 
+                                        '<tbody>'+
+                                            '<tr>' + 
+                                                '<td>B</td>';
+                                            
+
+                let bin_b = pow_b.toString(2).split('');
                 let res_a = new Array();
-                res_a.push(BigInt(a));
+                res_a.push(BigInt(num_a));
+
+                for (let i = 0; i < bin_b.length; i++) res.table += `<td>${bin_b[i]}</td>`;
+
+                res.table += '</tr>' +
+                                '<tr>' + 
+                                    '<td>A</td>' +
+                                    `<td>${res_a[0]}</td>`;
 
                 for (let i = 0; i < bin_b.length - 1; i++)
                 {
-                    if (parseInt(bin_b[i + 1]) === 0)
-                        res_a[i + 1] = BigInt(res_a[i]) ** BigInt(2) % BigInt(mod);
+                    if (parseInt(bin_b[i + 1]) === 0) 
+                    {
+                        res_a[i + 1] = BigInt(res_a[i]) ** BigInt(2) % BigInt(mod_n);
+                        res.table += `<td>${res_a[i + 1]}</td>`;
+                    }
                     else if (parseInt(bin_b[i + 1]) === 1)
-                        res_a[i + 1] = BigInt(res_a[i]) ** BigInt(2) * BigInt(res_a[0]) % BigInt(mod);
+                    {
+                        res_a[i + 1] = BigInt(res_a[i]) ** BigInt(2) * BigInt(res_a[0]) % BigInt(mod_n);
+                        res.table += `<td>${res_a[i + 1]}</td>`;
+                    }
                 }
 
-                return BigInt(res_a.pop());
+                res.table += '</tr></tbody></table></div><br>';
+                res.res = BigInt(res_a.pop());
+
+                return res;
             }
 
 
@@ -568,7 +623,7 @@
                     '0': 1
                 }
 
-                res.table += '<div id = "table">' + 
+                res.table += '<div class = "table">' + 
                             '<table>' + 
                             '<thead>Результат:</thead>' + 
                                 '<tr>' +
@@ -690,6 +745,12 @@
                 
             const encode = async (text, e, n) =>
             {
+                let bin_num = document.getElementById('bin_num');
+                let bin_pow = document.getElementById('bin_pow');
+                let bin_mod = document.getElementById('bin_mod');
+                let bin_pow_mod_table = document.getElementById('bin_pow_mod_table');
+                bin_pow_mod_table.innerHTML = '';
+
                 let encoded = new Array();
                 let encoded_index;
 
@@ -698,12 +759,18 @@
                 for (let i = 0; i < text.length; i++)
                 {
                     let index = chars.indexOf(text[i]);
-                    encoded_index = BigInt(await binary_pow_with_mod(BigInt(index), BigInt(e), BigInt(n)));
+                    let res = await binary_pow_with_mod(BigInt(index), BigInt(e), BigInt(n));
+
+                    encoded_index = BigInt(res.res);
                     encoded.push(encoded_index.toString());
                     encoded.push(await get_random_separator());
+
+                    bin_pow_mod_table.innerHTML += res.table;
                 }
 
                 encoded = encoded.toString().replaceAll(',', '');
+
+                bin_num.value = bin_pow.value = bin_mod.value = '';
 
                 return encoded;
             }
@@ -711,14 +778,26 @@
 
             const decode = async (text, d, n) =>
             {
+                let bin_num = document.getElementById('bin_num');
+                let bin_pow = document.getElementById('bin_pow');
+                let bin_mod = document.getElementById('bin_mod');
+                let bin_pow_mod_table = document.getElementById('bin_pow_mod_table');
+                bin_pow_mod_table.innerHTML = '';
+
                 let decoded = '';
                 const text_arr = await remove_separators(text);
 
                 for (let i = 0; i < text_arr.length; i++)
                 {
-                    let index = BigInt(await binary_pow_with_mod(BigInt(text_arr[i]), BigInt(d), BigInt(n)));
+                    let res = await binary_pow_with_mod(BigInt(text_arr[i]), BigInt(d), BigInt(n));
+
+                    let index = BigInt(res.res);
                     decoded += chars[index];
+
+                    bin_pow_mod_table.innerHTML += res.table;
                 }
+
+                bin_num.value = bin_pow.value = bin_mod.value = '';
 
                 return decoded;
             }
@@ -726,9 +805,6 @@
 
             const use_encode = async () =>
             {
-                let p = parseInt(document.getElementById('p').value);
-                let q = parseInt(document.getElementById('q').value);
-                    
                 let key_n = document.getElementById('key_n');
                 let key_e = document.getElementById('key_e');
                 let key_d = document.getElementById('key_d');
@@ -746,7 +822,7 @@
                 let encoded_text = document.getElementById('encoded_text');
 
 
-                let answer = {
+                let res = {
                     encoded: undefined,
                     n: undefined,
                     euler_func: undefined,
@@ -755,7 +831,10 @@
                     msg: undefined
                 }
 
-                let text = encode_text.value;
+                
+                const p = parseInt(document.getElementById('p').value);
+                const q = parseInt(document.getElementById('q').value);
+                const text = encode_text.value;
 
                 try 
                 {
@@ -777,34 +856,32 @@
 
                                 const encoded = await encode(text, e, n);
 
-                                answer.encoded = encoded.toString();
-                                answer.n = n.toString();
-                                answer.euler_func = euler_func.toString();
-                                answer.e = e.toString();
-                                answer.d = d.toString();
-                                answer.msg = 'Success!';
+                                res.encoded = encoded.toString();
+                                res.n = n.toString();
+                                res.euler_func = euler_func.toString();
+                                res.e = e.toString();
+                                res.d = d.toString();
+                                res.msg = 'Success!';
 
-                                input_key_n.value = key_n.innerText = answer?.n;
-                                euclid_n.value = euler_func_res.innerText = answer?.euler_func;
-                                euclid_m.value = key_e.innerText = answer?.e;
-                                input_key_d.value = key_d.innerText = answer?.d;
-                                decode_text.innerText = encoded_text.innerText = answer?.encoded;
-
-                                return answer;
+                                input_key_n.value = key_n.innerText = res?.n;
+                                euclid_n.value = euler_func_res.innerText = res?.euler_func;
+                                euclid_m.value = key_e.innerText = res?.e;
+                                input_key_d.value = key_d.innerText = res?.d;
+                                decode_text.innerText = encoded_text.innerText = res?.encoded;
                             }
                         }
                         else 
                         {
-                            answer.msg = 'Error: p или q - не простые числа!';
-                            alert(answer.msg);
-                            return answer;
+                            res.msg = 'Error: P или Q - не простые числа!';
+                            console.error(res.msg);
+                            alert(res.msg);
                         }
                     }
                     else 
                     {
-                        answer.msg = 'Error: p, q или текст не введены!';
-                        alert(answer.msg);
-                        return answer;
+                        res.msg = 'Error: P, Q или текст не введены!';
+                        console.error(res.msg);
+                        alert(res.msg);
                     }
                 } 
                 catch (err) 
@@ -822,12 +899,12 @@
                 let decode_text = document.getElementById('decode_text');
                 let decoded_text = document.getElementById('decoded_text');
 
-                let d = parseInt(input_key_d.value);
-                let n = parseInt(input_key_n.value);
-                let text = decode_text.value;
+                const d = parseInt(input_key_d.value);
+                const n = parseInt(input_key_n.value);
+                const text = decode_text.value;
 
-                let answer = {
-                    res: undefined,
+                let res = {
+                    decoded: undefined,
                     msg: undefined
                 }
 
@@ -835,16 +912,15 @@
                 {
                     if (text !== '' && d && n)
                     {
-                        answer.res = await decode(text, d, n);
-                        answer.msg = 'Success!';
-                        decoded_text.innerText = answer.res;
-
-                        return answer;
+                        res.decoded = await decode(text, d, n);
+                        res.msg = 'Success!';
+                        decoded_text.innerText = res?.decoded;
                     }
                     else
                     {
-                        answer.msg = 'Error: Введите секретный ключ!';
-                        return answer;
+                        res.msg = 'Error: Введите секретный ключ!';
+                        console.error(res.msg);
+                        alert(res.msg);
                     }
                 } 
                 catch (err) 
@@ -862,12 +938,46 @@
                 let euclid_table = document.getElementById('euclid_table');
                 let euclid_check = document.getElementById('euclid_check');
 
-                let n = parseInt(euclid_n.value);
-                let m = parseInt(euclid_m.value);
-                let res = await euclid_ext_alg(m, n);
+                const n = BigInt(euclid_n.value);
+                const m = BigInt(euclid_m.value);
 
-                euclid_table.innerHTML = res.table;
-                euclid_check.innerHTML = res.check;
+                if (n && m)
+                {
+                    const res = await euclid_ext_alg(m, n);
+                    euclid_table.innerHTML = res.table;
+                    euclid_check.innerHTML = res.check;
+                }
+                else
+                {
+                    let err_msg = 'Error: N или M не введены!';
+                    console.error(err_msg);
+                    alert(err_msg);
+                }
+            }
+
+
+            const use_binary_pow_with_mod = async () =>
+            {
+                let bin_num = document.getElementById('bin_num');
+                let bin_pow = document.getElementById('bin_pow');
+                let bin_mod = document.getElementById('bin_mod');
+                let bin_pow_mod_table = document.getElementById('bin_pow_mod_table');
+
+                const num_a = BigInt(bin_num.value);
+                const pow_b = BigInt(bin_pow.value);
+                const mod_n = BigInt(bin_mod.value);
+
+                if (num_a && pow_b & mod_n)
+                {
+                    const res = await binary_pow_with_mod(num_a, pow_b, mod_n);
+                    bin_pow_mod_table.innerHTML = res.table;
+                }
+                else
+                {
+                    let err_msg = 'Error: A, B или N не введены!';
+                    console.error(err_msg);
+                    alert(err_msg);
+                }
             }
 
         </script>
