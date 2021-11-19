@@ -655,7 +655,7 @@
                                     `<td>${b['0']}</td>` +
                                 '</tr>';
 
-                res.output = '\n№\t | ni\t | mi\t | ri\t | qi\t | ai\t | bi\t' +
+                res.output = '\n№\t | Ni\t | Mi\t | Ri\t | Qi\t | Ai\t | Bi\t' +
                             `\n-1\t | -\t | -\t | -\t | -\t | ${a['-1']}\t | ${b['-1']}\t` +
                             `\n0\t | -\t | -\t | -\t | -\t | ${a['0']}\t | ${b['0']}\t`;
 
@@ -710,19 +710,19 @@
                     res.B = B;
                     res.d = d;
                     
-                    res.output += `\n\nA = ${BigInt(A)}\nB = ${BigInt(B)}\nd = ${BigInt(d)}`;
-                    res.check += `<p>A = ${BigInt(A)}</p><p>B = ${BigInt(B)}</p><p>d = ${BigInt(d)}</p><br>`;
+                    res.output += `\n\nA = ${BigInt(A)}\nB = ${BigInt(B)}\nD = ${BigInt(d)}`;
+                    res.check += `<p>A = ${BigInt(A)}</p><p>B = ${BigInt(B)}</p><p>D = ${BigInt(d)}</p><br>`;
 
                     let check_1 = BigInt(n['1']) * BigInt(A) + BigInt(m['1']) * BigInt(B);
                     let check_2 = (BigInt(m['1']) * BigInt(d)) % BigInt(n['1']);
 
-                    res.output += `\n\nПроверка 1:\n\nn * A + m * B = ${BigInt(n['1'])} * ${BigInt(A)} + ${BigInt(m['1'])} * ${BigInt(B)} = ${check_1}`;
-                    res.output += `\n\nПроверка 2:\n\n(m * d) mod n = (${BigInt(m['1'])} * ${BigInt(d)}) mod ${BigInt(n['1'])} = ${check_2}`;
+                    res.output += `\n\nПроверка 1:\n\nN * A + M * B = ${BigInt(n['1'])} * ${BigInt(A)} + ${BigInt(m['1'])} * ${BigInt(B)} = ${check_1}`;
+                    res.output += `\n\nПроверка 2:\n\n(M * D) mod N = (${BigInt(m['1'])} * ${BigInt(d)}) mod ${BigInt(n['1'])} = ${check_2}`;
 
                     res.check += '<p>Проверка 1:</p>' + 
-                                `<p>n * A + m * B = ${BigInt(n['1'])} * ${BigInt(A)} + ${BigInt(m['1'])} * ${BigInt(B)} = ${check_1}</p>` +
+                                `<p>N * A + M * B = ${BigInt(n['1'])} * ${BigInt(A)} + ${BigInt(m['1'])} * ${BigInt(B)} = ${check_1}</p>` +
                                 '<br><p>Проверка 2:</p>' +
-                                `<p>(m * d) mod n = (${BigInt(m['1'])} * ${BigInt(d)}) mod ${BigInt(n['1'])} = ${check_2}</p>`;
+                                `<p>(M * D) mod N = (${BigInt(m['1'])} * ${BigInt(d)}) mod ${BigInt(n['1'])} = ${check_2}</p>`;
 
                     if (check_1 == 1 && check_2 == 1) 
                     {
