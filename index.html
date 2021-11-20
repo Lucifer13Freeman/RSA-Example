@@ -150,7 +150,8 @@
                 color: #fff;
                 font-family: 'Dancing Script', cursive;
                 position: fixed;
-                width: 100vw;
+                width: 100%;
+                min-width: 400px;
                 margin: 0;
                 z-index: 9;
                 cursor: default;
@@ -158,6 +159,7 @@
             footer 
             {
                 width: 100%;
+                min-width: 400px;
                 height: 150px;
                 border-top: 1px solid #450000bb;
                 display: flex;
@@ -284,21 +286,36 @@
                     border: 2px solid #450000bb;
                     text-align: center;
                     font-size: 0.9rem;
-                } 
+                }
+                .rsa_part
+                {
+                    padding: 0 20px;
+                }
                 .wrapped
                 {
                     display: block;
                 }
+                #content
+                {
+                    width: 100%;
+                    padding: 20px 0;
+                }
                 #euclid, #euclid_table, #bin_pow_mod, #bin_pow_mod_table
                 {
-                    width: 400px;
+                    width: 360px;
                 }
             }
             @media screen and (max-width: 720px)
             {
+                .rsa_part
+                {
+                    width: 380px;
+                    padding: 0 10px;
+                }
                 #main
                 {
-                    min-width: 480px;
+                    width: 100%;
+                    min-width: 400px;
                 }
                 #content
                 {
